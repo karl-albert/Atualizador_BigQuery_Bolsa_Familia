@@ -89,7 +89,8 @@ def processar_e_subir_mes(client, ym, fpath, temp_dir=TEMP_DIR):
                 r.nome_municipio::VARCHAR AS nome_municipio,
                 IF(UPPER(TRIM(r.primeiro_nome)) LIKE '%A', 'Feminino', 'Masculino')::VARCHAR AS Genero,
                 COUNT(r.nis_favorecido)::INTEGER AS total_beneficiarios,
-                ROUND(SUM(r.valor_parcela), 2)::DECIMAL(38,9) AS valor_total_pago
+                ROUND(SUM(r.valor_parcela), 2)::DECIMAL(38,9) AS valor_total_pago,
+                ROUND(CASE WHEN r.mes_competencia >= 202607 THEN SUM(r.valor_parcela) * 1.1504 ELSE SUM(r.valor_parcela) END, 2)::DECIMAL(38,9) AS valor_total_pago_novo
             FROM raw_data r
             GROUP BY r.mes_competencia, r.uf, r.nome_municipio, 4
         ) TO '{sql_gen_out}' (FORMAT PARQUET, COMPRESSION ZSTD);
@@ -124,7 +125,9 @@ def processar_e_subir_mes(client, ym, fpath, temp_dir=TEMP_DIR):
                 nome_municipio::VARCHAR AS nome_municipio,
                 COUNT(nis_favorecido)::INTEGER AS total_beneficiarios,
                 ROUND(SUM(valor_parcela), 2)::DECIMAL(38,9) AS valor_total_beneficio,
-                ROUND(AVG(valor_parcela), 2)::DECIMAL(38,9) AS valor_medio_parcela
+                ROUND(AVG(valor_parcela), 2)::DECIMAL(38,9) AS valor_medio_parcela,
+                ROUND(CASE WHEN mes_competencia >= 202607 THEN SUM(valor_parcela) * 1.1504 ELSE SUM(valor_parcela) END, 2)::DECIMAL(38,9) AS valor_total_beneficio_novo,
+                ROUND(CASE WHEN mes_competencia >= 202607 THEN AVG(valor_parcela) * 1.1504 ELSE AVG(valor_parcela) END, 2)::DECIMAL(38,9) AS valor_medio_parcela_novo
             FROM read_parquet('{sql_in}')
             GROUP BY 1, 2, 3, 4
         ) TO '{sql_cons_out}' (FORMAT PARQUET, COMPRESSION ZSTD);
