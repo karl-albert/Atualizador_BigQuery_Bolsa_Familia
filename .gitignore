@@ -1,0 +1,8 @@
+# BigQuery Credentials & Parquet Data
+*.json
+*.parquet
+*.pptx
+*.tmp
+__pycache__/
+*.pyc
+temp_bigquery_upload/
