@@ -10,7 +10,7 @@ Repositório oficial para automação do pipeline mensal do **Bolsa Família Ana
   2. `fato_bolsa_familia_consolidada` (Otimizada para granularidade SIAFI e ticket médio)
 * **Motor Local**: DuckDB In-Memory (redução de 93% no tráfego de dados e carga ZSTD instantânea).
 
-## 🚀 Como Executar
+## Como Executar
 Basta dar duplo clique em `Subir_Mes_BigQuery.bat` ou executar via terminal:
 ```bash
 python atualizador_mensal_bigquery.py
