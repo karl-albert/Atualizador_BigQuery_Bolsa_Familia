@@ -1,6 +1,6 @@
 # Atualizador Mensal Bolsa Família — Google BigQuery
 
-Repositório oficial para automação do pipeline mensal do **Bolsa Família Analytics** no **Google Cloud BigQuery**.
+Repositório oficial para automação do pipeline mensal do *Bolsa Família Analytics** no **Google Cloud BigQuery**.
 
 ## Arquitetura da Solução
 * **Projeto GCP**: `bolsa-familia-brasil-507002`
